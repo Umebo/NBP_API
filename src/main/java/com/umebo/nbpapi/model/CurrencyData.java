@@ -1,5 +1,6 @@
-package com.umebo.nbpapi.data;
+package com.umebo.nbpapi.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -17,8 +18,11 @@ public class CurrencyData {
 
     @Data
     public static class rate {
-        private String no;
-        private String effectiveDate;
-        private BigDecimal mid;
+        @JsonAlias("no")
+        private String tableNumber;
+        @JsonAlias("effectiveDate")
+        private String date;
+        @JsonAlias("mid")
+        private BigDecimal middleExchangeRate;
     }
 }

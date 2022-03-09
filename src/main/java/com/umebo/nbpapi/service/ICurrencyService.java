@@ -5,5 +5,7 @@ import java.util.Map;
 
 public interface ICurrencyService {
 
-    Map<String, BigDecimal> printDateAndValue ();
+    Map<String, BigDecimal> getDateAndValue();
+    String chooseCurrencyTable (String CurrencyCode);
+    void getRatesFromLastXDays (String currencyCode, int days);
 }

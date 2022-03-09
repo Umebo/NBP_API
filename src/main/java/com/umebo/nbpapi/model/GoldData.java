@@ -1,5 +1,6 @@
-package com.umebo.nbpapi.data;
+package com.umebo.nbpapi.model;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.Data;
 import org.springframework.stereotype.Component;
 
@@ -14,7 +15,9 @@ public class GoldData {
 
     @Data
     public static class price {
-        private String data;
-        private BigDecimal cena;
+        @JsonAlias("data")
+        private String date;
+        @JsonAlias("cena")
+        private BigDecimal price;
     }
 }
