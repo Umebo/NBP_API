@@ -1,26 +1,24 @@
 package com.umebo.nbpapi.service.impl;
 
+import com.umebo.nbpapi.exception.InvalidCurrencyCodeException;
 import com.umebo.nbpapi.model.CurrencyData;
-import com.umebo.nbpapi.model.CurrencyTableA;
+import com.umebo.nbpapi.model.DailyUpdatedCurrencyTableA;
+import com.umebo.nbpapi.model.WeeklyUpdatedCurrencyTableB;
 import com.umebo.nbpapi.service.ICurrencyService;
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-@Slf4j
 @Service
 public class CurrencyService implements ICurrencyService {
 
-    @Resource
-    CurrencyData currencyData;
+    @Autowired
+    CurrencyRatesProvider currencyRatesProvider;
 
-    public Map<String, BigDecimal> getDateAndValue() {
+    public Map<String, BigDecimal> getDateAndValue(CurrencyData currencyData) {
         Map<String, BigDecimal> table = new HashMap<>();
         for (int i = 0; i<currencyData.getRates().size(); i++) {
             table.put(currencyData.getRates().get(i).getDate(),
@@ -29,26 +27,16 @@ public class CurrencyService implements ICurrencyService {
         return table;
     }
 
-    public String chooseCurrencyTable (String currencyCode) {
-        String table = "b";
-        if (CurrencyTableA.stream().anyMatch(c
-                -> currencyCode.equalsIgnoreCase(String.valueOf(c))))
-            table = "a";
-        return table;
+    public String chooseCurrencyTable (String currencyCode) throws InvalidCurrencyCodeException {
+        if (DailyUpdatedCurrencyTableA.contains(currencyCode)) return  "a";
+        else if (WeeklyUpdatedCurrencyTableB.contains(currencyCode)) return "b";
+        else throw new InvalidCurrencyCodeException("Invalid currency code");
     }
 
-    public void getRatesFromLastXDays (String currencyCode, int days) {
+    public Map<String, BigDecimal> getRatesFromLastXDays (String currencyCode, int days) throws InvalidCurrencyCodeException {
         String table = chooseCurrencyTable(currencyCode);
-        String url = "http://api.nbp.pl/api/exchangerates/rates/" +
-                table + "/" +
-                currencyCode + "/last/" +
-                days;
-        RestTemplate restTemplate = new RestTemplate();
-        CurrencyData result = restTemplate.getForObject(url, CurrencyData.class);
-        currencyData.setTable(Objects.requireNonNull(result).getTable());
-        currencyData.setCurrency(result.getCurrency());
-        currencyData.setCode(result.getCode());
-        currencyData.setRates(result.getRates());
+        CurrencyData result = currencyRatesProvider.getLastXDaysCurrencyData(currencyCode, table, days);
+        return getDateAndValue(result);
     }
 
 }

@@ -16,12 +16,12 @@ public class RestGoldController {
 
     @Autowired
     IGoldService goldService;
+    private int GOLD_DAYS_NUM = 14;
 
     @GetMapping("/average")
     @ResponseBody
     public BigDecimal GetLast14GoldRatesAvr() throws JsonProcessingException {
-        goldService.GetLastXGoldRatesAvr(14);
-        return goldService.getGoldAvr();
+        return goldService.GetLastXGoldRatesAvr(GOLD_DAYS_NUM);
     }
 
 }
