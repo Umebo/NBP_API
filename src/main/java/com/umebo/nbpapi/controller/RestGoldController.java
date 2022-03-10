@@ -21,7 +21,7 @@ public class RestGoldController {
     @GetMapping("/average")
     @ResponseBody
     public BigDecimal GetLast14GoldRatesAvr() throws JsonProcessingException {
-        return goldService.GetLastXGoldRatesAvr(GOLD_DAYS_NUM);
+        return goldService.GetLastGoldRatesAvr(GOLD_DAYS_NUM);
     }
 
 }

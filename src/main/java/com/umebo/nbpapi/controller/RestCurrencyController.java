@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/api/exchangerates")
@@ -17,8 +17,8 @@ public class RestCurrencyController {
     private int STANDARD_DAYS_NUM = 5;
 
     @GetMapping("/{currencyCode}")
-    public Map<String, BigDecimal> getLast5CurrencyRates(@PathVariable String currencyCode) throws InvalidCurrencyCodeException {
-        return currencyService.getRatesFromLastXDays(currencyCode, STANDARD_DAYS_NUM);
+    public List<BigDecimal> getLast5CurrencyRates(@PathVariable String currencyCode) throws InvalidCurrencyCodeException {
+        return currencyService.getRatesFromLastDays(currencyCode, STANDARD_DAYS_NUM);
     }
 
 }

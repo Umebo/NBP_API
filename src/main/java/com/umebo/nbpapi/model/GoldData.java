@@ -9,13 +9,18 @@ import java.util.List;
 @Data
 public class GoldData {
 
-    private List<price> prices;
+    /*private List<Price> prices;
 
     @Data
-    public static class price {
+    public static class Price {
         @JsonAlias("data")
         private String date;
         @JsonAlias("cena")
         private BigDecimal price;
-    }
+    }*/
+    @JsonAlias("data")
+    private String date;
+    @JsonAlias("cena")
+    private BigDecimal price;
+
 }

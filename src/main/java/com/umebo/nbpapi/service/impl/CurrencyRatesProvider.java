@@ -12,7 +12,7 @@ public class CurrencyRatesProvider {
     private static String BASE_URL = "http://api.nbp.pl/api/exchangerates/rates/%s/%s/last/%s";
     private RestTemplate restTemplate = new RestTemplate();
 
-    public CurrencyData getLastXDaysCurrencyData(String currencyCode, String table, int days) {
+    public CurrencyData getLastDaysCurrencyData(String currencyCode, String table, int days) {
         String url = format(BASE_URL, table, currencyCode, days);
         return restTemplate.getForObject(url, CurrencyData.class);
     }

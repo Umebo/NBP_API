@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CurrencyService implements ICurrencyService {
@@ -18,25 +18,24 @@ public class CurrencyService implements ICurrencyService {
     @Autowired
     CurrencyRatesProvider currencyRatesProvider;
 
-    public Map<String, BigDecimal> getDateAndValue(CurrencyData currencyData) {
-        Map<String, BigDecimal> table = new HashMap<>();
+    public List<BigDecimal> getCurrencyValues(CurrencyData currencyData) {
+        List<BigDecimal> table = new ArrayList<>();
         for (int i = 0; i<currencyData.getRates().size(); i++) {
-            table.put(currencyData.getRates().get(i).getDate(),
-                    currencyData.getRates().get(i).getMiddleExchangeRate());
+            table.add(currencyData.getRates().get(i).getMiddleExchangeRate());
         }
         return table;
     }
 
-    public String chooseCurrencyTable (String currencyCode) throws InvalidCurrencyCodeException {
+    public String getCurrencyTableName(String currencyCode) throws InvalidCurrencyCodeException {
         if (DailyUpdatedCurrencyTableA.contains(currencyCode)) return  "a";
         else if (WeeklyUpdatedCurrencyTableB.contains(currencyCode)) return "b";
         else throw new InvalidCurrencyCodeException("Invalid currency code");
     }
 
-    public Map<String, BigDecimal> getRatesFromLastXDays (String currencyCode, int days) throws InvalidCurrencyCodeException {
-        String table = chooseCurrencyTable(currencyCode);
-        CurrencyData result = currencyRatesProvider.getLastXDaysCurrencyData(currencyCode, table, days);
-        return getDateAndValue(result);
+    public List<BigDecimal> getRatesFromLastDays(String currencyCode, int days) throws InvalidCurrencyCodeException {
+        String table = getCurrencyTableName(currencyCode);
+        CurrencyData result = currencyRatesProvider.getLastDaysCurrencyData(currencyCode, table, days);
+        return getCurrencyValues(result);
     }
 
 }

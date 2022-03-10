@@ -1,7 +1,10 @@
 package com.umebo.nbpapi.service.impl;
 
+import com.umebo.nbpapi.model.GoldDataArray;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+
+import java.math.BigDecimal;
 
 import static java.lang.String.format;
 
@@ -11,8 +14,8 @@ public class GoldRatesProvider {
     private static String BASE_URL = "http://api.nbp.pl/api/cenyzlota/last/%s";
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String GetLastXGoldRates(int days) {
+    public GoldDataArray GetLastGoldRates(int days) {
         String url = format(BASE_URL, days);
-        return restTemplate.getForObject(url, String.class);
+        return restTemplate.getForObject(url, GoldDataArray.class);
     }
 }
