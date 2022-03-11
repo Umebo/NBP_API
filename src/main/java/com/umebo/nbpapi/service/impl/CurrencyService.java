@@ -2,8 +2,8 @@ package com.umebo.nbpapi.service.impl;
 
 import com.umebo.nbpapi.exception.InvalidCurrencyCodeException;
 import com.umebo.nbpapi.model.CurrencyData;
-import com.umebo.nbpapi.model.DailyUpdatedCurrencyTableA;
-import com.umebo.nbpapi.model.WeeklyUpdatedCurrencyTableB;
+import com.umebo.nbpapi.model.enums.DailyUpdatedCurrencyTableA;
+import com.umebo.nbpapi.model.enums.WeeklyUpdatedCurrencyTableB;
 import com.umebo.nbpapi.service.ICurrencyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

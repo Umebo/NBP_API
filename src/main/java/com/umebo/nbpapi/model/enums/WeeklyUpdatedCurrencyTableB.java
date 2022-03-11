@@ -1,4 +1,4 @@
-package com.umebo.nbpapi.model;
+package com.umebo.nbpapi.model.enums;
 
 import java.util.stream.Stream;
 

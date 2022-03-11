@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class RestGoldController {
 
     @Autowired
-    IGoldService goldService;
+    private IGoldService goldService;
     private int GOLD_DAYS_NUM = 14;
 
     @GetMapping("/average")
