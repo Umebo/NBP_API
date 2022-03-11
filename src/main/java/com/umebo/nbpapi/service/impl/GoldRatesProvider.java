@@ -1,5 +1,6 @@
 package com.umebo.nbpapi.service.impl;
 
+import com.umebo.nbpapi.model.GoldData;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -11,8 +12,8 @@ public class GoldRatesProvider {
     private static String BASE_URL = "http://api.nbp.pl/api/cenyzlota/last/%s";
     private RestTemplate restTemplate = new RestTemplate();
 
-    public String GetLastGoldRates(int days) {
+    public GoldData[] GetLastGoldRates(int days) {
         String url = format(BASE_URL, days);
-        return restTemplate.getForObject(url, String.class);
+        return restTemplate.getForObject(url, GoldData[].class);
     }
 }
